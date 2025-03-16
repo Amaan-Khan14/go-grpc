@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 
+	pb "github.com/Amaan-Khan14/grpc-demo/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
@@ -17,4 +18,16 @@ func main() {
 		log.Fatalf("failed to connect: %v", err)
 	}
 	defer clientConn.Close()
+
+	client := pb.NewGreetingsServiceClient(clientConn)
+	// callSayHello(client)
+	//
+	names := &pb.NamesList{
+		Name: []string{
+			"Alice",
+			"Bob",
+			"John Doe",
+		},
+	}
+	callSayHelloServerStreaming(client, names)
 }
